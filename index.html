@@ -1,45 +1,261 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Миклат — экспедиционный мир</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>МИКЛАТ — Экспедиционная яхта</title>
 <style>
-:root{color-scheme:dark;--bg:#071b2c;--card:#12344c;--line:#345a70;--accent:#38bce8;--text:#f2f8fc}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(#071b2c,#0d3048);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
-header{padding:22px 16px;text-align:center;background:#061522;border-bottom:1px solid var(--line)}h1{color:#74d9ff;margin:0 0 8px;font-size:34px}header p{margin:4px;color:#bfd4e0;font-size:14px}
-main{max-width:760px;margin:auto;padding:16px 14px 50px}h2{font-size:23px;margin:25px 0 12px}h3{margin:4px 0 10px}.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;box-shadow:0 6px 20px #0002}
-button{font:inherit;border:0;border-radius:12px;padding:12px 15px;background:var(--accent);color:#052337;font-weight:bold;cursor:pointer}button:active{transform:scale(.98)}button.secondary{background:#244c66;color:#fff;border:1px solid #49718b}.tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.tabs button.active{background:#e6f9ff;color:#063047}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.room,.person{min-height:88px;text-align:left;background:#1b4660;color:white;border:1px solid #3e728c;display:flex;flex-direction:column;justify-content:center;gap:8px}.room span,.person span{font-weight:normal;font-size:12px;color:#bdd8e6}.muted{color:#b8cfdb;font-size:14px;line-height:1.5}.people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.person{min-height:76px;padding:10px;font-size:14px}.person span{font-size:11px}.toolbar{display:flex;gap:8px;flex-wrap:wrap}textarea{width:100%;min-height:110px;resize:vertical;border-radius:12px;border:1px solid #49718b;background:#071d30;color:white;font:inherit;padding:12px}.entry{border-top:1px solid var(--line);padding:10px 0;white-space:pre-wrap;overflow-wrap:anywhere}.entry small{display:block;color:#a9c4d3;margin-bottom:5px}dialog{background:#102e45;color:white;border:1px solid #54819a;border-radius:18px;width:min(92vw,480px);padding:22px}dialog::backdrop{background:#000a}dialog p{line-height:1.55}.close{float:right;padding:6px 10px}.count{color:#8edfff;font-weight:bold}.hidden{display:none}footer{text-align:center;color:#91aebf;font-size:12px;padding:20px}
-@media(min-width:650px){.tabs{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:repeat(3,1fr)}.people{grid-template-columns:repeat(3,1fr)}}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #071728;
+  color: #f0f6ff;
+  font-family: Arial, sans-serif;
+}
+header {
+  padding: 22px 16px;
+  text-align: center;
+  background: #102b44;
+  border-bottom: 1px solid #36536c;
+}
+h1 { margin: 0 0 8px; letter-spacing: 3px; }
+header p { margin: 0; color: #bed2e3; }
+main {
+  max-width: 780px;
+  margin: auto;
+  padding: 18px 12px;
+}
+.intro {
+  text-align: center;
+  padding: 20px 8px;
+}
+.intro p { line-height: 1.6; color: #c6d8e8; }
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 15px;
+  cursor: pointer;
+}
+#board {
+  background: #e6b65a;
+  color: #172438;
+  font-weight: bold;
+  padding: 14px 25px;
+}
+#chatArea { display: none; }
+.characters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.character {
+  flex: 1;
+  background: #1c3a56;
+  color: white;
+}
+.character.active {
+  background: #e6b65a;
+  color: #172438;
+  font-weight: bold;
+}
+#chat {
+  height: 52vh;
+  min-height: 290px;
+  overflow-y: auto;
+  padding: 14px;
+  background: #10263c;
+  border: 1px solid #36536c;
+  border-radius: 12px;
+}
+.message {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.mine {
+  background: #24577c;
+  margin-left: 14%;
+}
+.theirs {
+  background: #233d51;
+  margin-right: 14%;
+}
+.name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #f2c977;
+}
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+#message {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  color: #142333;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 16px;
+}
+#send {
+  background: #e6b65a;
+  color: #142333;
+  font-weight: bold;
+}
+#send:disabled { opacity: .5; }
+#status {
+  min-height: 24px;
+  margin-top: 10px;
+  color: #c6d8e8;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
-<header><h1>⚓ МИКЛАТ</h1><p>Виртуальный экспедиционный мир</p><p>📍 Ираклион, Крит · 🚢 48 м · 👥 30 человек</p></header>
+<header>
+  <h1>⚓ МИКЛАТ</h1>
+  <p>Экспедиционная яхта • 48 метров • 4 палубы</p>
+</header>
 <main>
-<section class="panel"><h2 style="margin-top:0">Добро пожаловать на борт!</h2><p>Наше судно готовится к путешествию. Исследуй палубы, знакомься с людьми и записывай события в журнал.</p><button onclick="document.getElementById('decks').scrollIntoView({behavior:'smooth'})">🚢 Исследовать корабль</button></section>
-<section id="decks"><h2>🧭 Четыре палубы</h2><div class="tabs" id="deckTabs"></div><div class="panel"><h3 id="deckTitle"></h3><p class="muted" id="deckInfo"></p><div class="grid" id="rooms"></div></div></section>
-<section id="peopleSection"><h2>👥 Люди на борту <span class="count">30</span></h2><div class="toolbar"><button class="secondary" onclick="showPeople('all')">Все</button><button class="secondary" onclick="showPeople('crew')">Экипаж</button><button class="secondary" onclick="showPeople('guest')">Пассажиры</button></div><p class="muted">Нажми на человека, чтобы узнать о нём. Это пока карточки персонажей, не ИИ-чат.</p><div class="people" id="people"></div></section>
-<section><h2>📓 Бортовой журнал</h2><div class="panel"><p class="muted">Записи хранятся локально в браузере. Они не синхронизируются между устройствами.</p><textarea id="note" placeholder="Что произошло сегодня на борту?"></textarea><div class="toolbar" style="margin-top:10px"><button onclick="saveNote()">Сохранить запись</button></div><div id="entries"></div></div></section>
+  <section class="intro" id="intro">
+    <h2>Добро пожаловать на борт</h2>
+    <p>
+      Наше путешествие начинается в Ираклионе,
+      на острове Крит. Здесь тебя ждут
+      капитан Виктор Соколов, морской биолог
+      Лея Мартен и историк Адриан Беллини.
+    </p>
+    <button id="board">Подняться на борт</button>
+  </section>
+
+  <section id="chatArea">
+    <h2>Разговоры на борту</h2>
+    <div class="characters">
+      <button class="character active" data-id="viktor">
+        ⚓ Виктор
+      </button>
+      <button class="character" data-id="lea">
+        🐬 Лея
+      </button>
+      <button class="character" data-id="adrian">
+        📜 Адриан
+      </button>
+    </div>
+    <div id="chat" aria-live="polite"></div>
+    <form class="controls" id="form">
+      <input id="message"
+        placeholder="Напиши сообщение..."
+        maxlength="2000"
+        autocomplete="off"
+        required>
+      <button id="send" type="submit">Отправить</button>
+    </form>
+    <div id="status"></div>
+  </section>
 </main>
-<dialog id="details"><button class="secondary close" onclick="document.getElementById('details').close()">✕</button><h2 id="detailTitle"></h2><p id="detailText"></p><button onclick="document.getElementById('details').close()">Закрыть</button></dialog>
-<footer>МИКЛАТ · Первая интерактивная версия · Без подключения к ИИ</footer>
+
 <script>
-const decks=[
-{name:'Верхняя палуба',icon:'🌅',info:'Открытое пространство для наблюдений и отдыха.',rooms:[['🔭','Смотровая площадка','Наблюдение за морем и звёздами'],['☀️','Солнечная палуба','Отдых на свежем воздухе'],['🛟','Шлюпочная зона','Спасательные средства и тендер']]},
-{name:'Мостиковая палуба',icon:'🧭',info:'Здесь управляют судном и планируют маршрут.',rooms:[['🎛️','Капитанский мостик','Управление судном'],['🗺️','Штурманская','Карты и планирование переходов'],['📡','Радиорубка','Связь с берегом'],['👨‍✈️','Каюта капитана','Личное пространство Виктора Соколова']]},
-{name:'Главная палуба',icon:'🛋️',info:'Общие помещения и места встреч.',rooms:[['🍽️','Салон и столовая','Обеды и беседы'],['👨‍🍳','Камбуз','Кухня Давида Росси'],['📚','Библиотека','Книги и исследования'],['🩺','Медпункт','Помощь доктора Амары'],['🚪','Гостевые каюты','Размещение пассажиров']]},
-{name:'Нижняя палуба',icon:'🤿',info:'Технические помещения и экспедиционное оборудование.',rooms:[['⚙️','Машинное отделение','Рабочая зона Артёма Волкова'],['🤿','Дайвинг-центр','Снаряжение для погружений'],['🔬','Лаборатория','Изучение морских образцов'],['📦','Склад','Экспедиционные запасы'],['🛏️','Каюты экипажа','Места отдыха команды']]}
-];
-const crew=[['Виктор Соколов','Капитан, 52 года','Опытный моряк, спокойный и ответственный.'],['София Маркес','Старший помощник, 34 года','Следит за порядком и организацией вахт.'],['Артём Волков','Старший механик, 41 год','Отвечает за двигатели и технические системы.'],['Наоми Танака','Штурман, 29 лет','Прокладывает маршруты и изучает погоду.'],['Давид Росси','Кок, 38 лет','Готовит блюда для всей экспедиции.'],['Амара Окойе','Врач, 36 лет','Заботится о здоровье людей на борту.'],['Никос Пападакис','Водолаз и матрос, 32 года','Помогает при погружениях и палубных работах.'],['Елена Морозова','Стюард, 27 лет','Организует быт и встречает гостей.']];
-const guests=[['Лея Мартен','Морской биолог','Изучает подводную жизнь.'],['Марк Вебер','Инженер','Любит сложные механизмы.'],['Алексис Рид','Фотограф','Снимает путешествие.'],['Адриан Беллини','Историк','Исследует историю Средиземноморья.'],['Инес Гарсия','Археолог','Ищет следы древних цивилизаций.'],['Омар Хаддад','Астроном','Наблюдает ночное небо.'],['Катерина Димитриу','Музыкант','Играет музыку по вечерам.'],['Томас Блейк','Журналист','Собирает истории экспедиции.'],['Амина Бенсаид','Художница','Пишет морские пейзажи.'],['Юлиан Краус','Программист','Интересуется технологиями.'],['Изабель Лоран','Литературовед','Обожает книги и легенды.'],['Рафаэль Коста','Дайвер','Исследует подводные места.'],['Мира Петрова','Ботаник','Изучает растения побережья.'],['Самир Нассер','Гастроном','Знакомится с местной кухней.'],['Эмма Уилсон','Психолог','Изучает общение людей.'],['Лукас Феррейра','Танцор и спортсмен','Любит движение и приключения.'],['Нора Линд','Геолог','Исследует породы и острова.'],['Хару Сато','Робототехник','Создаёт исследовательские устройства.'],['Габриэль Моро','Специалист по навигации','Интересуется морскими маршрутами.'],['Зара Мехта','Документалист','Снимает фильм об экспедиции.']];
-const others=[['Вы','Руководитель экспедиции','Ты определяешь направление путешествия.'],['Милана','Виртуальная помощница','Будущий ИИ-помощник проекта. Пока это карточка.']];
-function openDetail(title,description){document.getElementById('detailTitle').textContent=title;document.getElementById('detailText').textContent=description;document.getElementById('details').showModal()}
-function showDeck(i){document.getElementById('deckTabs').innerHTML=decks.map((d,n)=>`<button class="${n===i?'active':'secondary'}" onclick="showDeck(${n})">${d.icon} ${d.name}</button>`).join('');let d=decks[i];document.getElementById('deckTitle').textContent=d.icon+' '+d.name;document.getElementById('deckInfo').textContent=d.info;const root=document.getElementById('rooms');root.replaceChildren();d.rooms.forEach(r=>{let b=document.createElement('button');b.className='room';b.textContent=r[0]+' '+r[1];let s=document.createElement('span');s.textContent=r[2];b.append(s);b.onclick=()=>openDetail(r[0]+' '+r[1],r[2]+'. Здесь позднее появятся события и действия персонажей.');root.append(b)})}
-function showPeople(group){let items=group==='crew'?crew:group==='guest'?guests:others.concat(crew,guests);let root=document.getElementById('people');root.replaceChildren();items.forEach(p=>{let b=document.createElement('button');b.className='person';b.textContent=p[0];let s=document.createElement('span');s.textContent=p[1];b.append(s);b.onclick=()=>openDetail(p[0],p[1]+'. '+p[2]);root.append(b)})}
-const storeKey='miklat-journal-v1';function readNotes(){try{return JSON.parse(localStorage.getItem(storeKey)||'[]')}catch(e){return []}}
-function saveNote(){let field=document.getElementById('note');let t=field.value.trim();if(!t)return alert('Сначала напиши запись.');let notes=readNotes();notes.unshift({time:new Date().toLocaleString('ru-RU'),text:t});try{localStorage.setItem(storeKey,JSON.stringify(notes));field.value='';renderNotes()}catch(e){alert('Не удалось сохранить запись в браузере.')}}
-function renderNotes(){let root=document.getElementById('entries');root.replaceChildren();readNotes().forEach(n=>{let div=document.createElement('div');div.className='entry';let small=document.createElement('small');small.textContent=n.time;let text=document.createElement('div');text.textContent=n.text;div.append(small,text);root.append(div)})}
-showDeck(0);showPeople('all');renderNotes();
+const API = "https://miklat-server.onrender.com/api/chat";
+
+const names = {
+  viktor: "Виктор Соколов",
+  lea: "Лея Мартен",
+  adrian: "Адриан Беллини"
+};
+
+let selected = "viktor";
+let busy = false;
+
+const chat = document.getElementById("chat");
+const messageInput = document.getElementById("message");
+const sendButton = document.getElementById("send");
+const status = document.getElementById("status");
+
+function addMessage(name, text, mine = false) {
+  const element = document.createElement("div");
+  element.className = "message " + (mine ? "mine" : "theirs");
+
+  const label = document.createElement("div");
+  label.className = "name";
+  label.textContent = name;
+
+  const content = document.createElement("div");
+  content.textContent = text;
+
+  element.append(label, content);
+  chat.appendChild(element);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+document.getElementById("board").onclick = () => {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("chatArea").style.display = "block";
+  addMessage("Миклат",
+    "Добро пожаловать на борт! Выбери собеседника и напиши ему.");
+};
+
+document.querySelectorAll(".character").forEach(button => {
+  button.onclick = () => {
+    selected = button.dataset.id;
+    document.querySelectorAll(".character").forEach(item => {
+      item.classList.toggle("active", item === button);
+    });
+    status.textContent = "Собеседник: " + names[selected];
+  };
+});
+
+document.getElementById("form").onsubmit = async event => {
+  event.preventDefault();
+  if (busy) return;
+
+  const text = messageInput.value.trim();
+  if (!text) return;
+
+  const character = selected;
+  addMessage("Ты", text, true);
+  messageInput.value = "";
+
+  busy = true;
+  sendButton.disabled = true;
+  status.textContent = names[character] + " отвечает...";
+
+  try {
+    const response = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        character: character,
+        message: text
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Ошибка сервера");
+    }
+
+    addMessage(names[character],
+      data.answer || "Ответ пока пуст.");
+    status.textContent = "";
+  } catch (error) {
+    addMessage("Миклат",
+      "Не удалось получить ответ. " + error.message);
+    status.textContent = "Проверь соединение с сервером.";
+  } finally {
+    busy = false;
+    sendButton.disabled = false;
+    messageInput.focus();
+  }
+};
 </script>
 </body>
 </html>
